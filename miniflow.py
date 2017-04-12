@@ -55,6 +55,9 @@ class Add(Node):
 
 
 class Linear(Node):
+    """
+    Class to implement linear functionality
+    """
     def __init__(self, inputs, weights, bias):
         Node.__init__(self, [inputs, weights, bias])
 
@@ -77,6 +80,25 @@ class Linear(Node):
         self.value = output
          
 
+class Sigmoid(Node):
+    """
+    Class to implement Sigmoid functionality
+    """
+    def __init__(self,node):
+        Node.__init__(self,[node])
+    
+    def _sigmoid(self,x):
+        """
+        This is different from forward() as it will be used in both forward and backward
+        """
+        return 1./(1.+np.exp(-x))
+    
+    def forward(self):
+        """
+        Set the value of this node to output of _sigmoid activation 
+        """
+        x = self.inbound_nodes[0].value
+        self.value = self._sigmoid(x)
 
 
 def topological_sort(feed_dict):
